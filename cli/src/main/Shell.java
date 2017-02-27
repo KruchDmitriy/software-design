@@ -13,11 +13,15 @@ public final class Shell {
             String line = read();
             isEnd = line == null;
 
-            String processedLine = Preprocessor.parse(environment, line);
-            String[] tokens = Tokenizer.parse(processedLine);
-            Command[] commands = Interpretator.perform(tokens);
-            Stream stream = Runner.execute(environment, commands);
-            print(stream);
+            try {
+                String processedLine = Preprocessor.parse(environment, line);
+                String[] tokens = Tokenizer.parse(processedLine);
+                Command[] commands = Interpretator.perform(tokens);
+                Stream stream = Runner.execute(environment, commands);
+                print(stream);
+            } catch (PreprocessException e) {
+                e.printStackTrace();
+            }
         } while (isEnd);
     }
 
