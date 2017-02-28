@@ -1,5 +1,6 @@
 package main;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public final class Shell {
@@ -15,11 +16,11 @@ public final class Shell {
 
             try {
                 String processedLine = Preprocessor.parse(environment, line);
-                String[] tokens = Tokenizer.parse(processedLine);
-                Command[] commands = Interpretator.perform(tokens);
+                List<String> tokens = Tokenizer.parse(processedLine);
+                List<Command> commands = Interpretator.perform(tokens);
                 Stream stream = Runner.execute(environment, commands);
                 print(stream);
-            } catch (PreprocessException e) {
+            } catch (PreprocessException | TokenizeException e) {
                 e.printStackTrace();
             }
         } while (isEnd);

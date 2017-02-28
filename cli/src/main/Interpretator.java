@@ -1,8 +1,10 @@
 package main;
 
+import java.util.List;
+
 public final class Interpretator {
     private Interpretator() {}
-    public static Command[] perform(final String[] tokens) {
+    public static List<Command> perform(final List<String> tokens) {
         return null;
     }
 }

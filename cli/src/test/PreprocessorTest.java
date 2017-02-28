@@ -5,6 +5,7 @@ import main.PreprocessException;
 import main.Preprocessor;
 import org.junit.Test;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class PreprocessorTest {
@@ -14,17 +15,14 @@ public class PreprocessorTest {
         env.write("a", "42");
         env.write("difficultName", "someString");
         try {
-            assertTrue(Preprocessor.parse(env, "$a").equals("42"));
-            assertTrue(Preprocessor.parse(env, "$a + 1").equals("42 + 1"));
-            assertTrue(Preprocessor.parse(env, "$b").equals(""));
-            assertTrue(Preprocessor.parse(env, "'$b'").equals("'$b'"));
-            assertTrue(Preprocessor.parse(env, "\"$a\"").equals("\"42\""));
-            assertTrue(Preprocessor.parse(env, "$difficultName = $a").
-                    equals("someString = 42"));
-            assertTrue(Preprocessor.parse(env, "$difficultName=$a").
-                    equals("someString=42"));
-            assertTrue(Preprocessor.parse(env, "'$difficultName=$a'").
-                    equals("'$difficultName=$a'"));
+            assertEquals("42", Preprocessor.parse(env, "$a"));
+            assertEquals("42 + 1", Preprocessor.parse(env, "$a + 1"));
+            assertEquals("", Preprocessor.parse(env, "$b"));
+            assertEquals("'$b'", Preprocessor.parse(env, "'$b'"));
+            assertEquals("\"42\"", Preprocessor.parse(env, "\"$a\""));
+            assertEquals("someString = 42", Preprocessor.parse(env, "$difficultName = $a"));
+            assertEquals("someString=42", Preprocessor.parse(env, "$difficultName=$a"));
+            assertEquals("'$difficultName=$a'", Preprocessor.parse(env, "'$difficultName=$a'"));
 
         } catch (PreprocessException e) {
             assertTrue(false);
