@@ -1,4 +1,4 @@
-package main;
+package core;
 
 import com.sun.istack.internal.NotNull;
 

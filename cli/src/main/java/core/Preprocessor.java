@@ -1,4 +1,4 @@
-package main;
+package core;
 
 public final class Preprocessor {
     private Preprocessor() {}

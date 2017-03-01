@@ -1,8 +1,6 @@
-package test;
-
-import main.Environment;
-import main.PreprocessException;
-import main.Preprocessor;
+import core.Environment;
+import core.PreprocessException;
+import core.Preprocessor;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

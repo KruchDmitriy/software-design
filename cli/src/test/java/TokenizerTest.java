@@ -1,7 +1,5 @@
-package test;
-
-import main.TokenizeException;
-import main.Tokenizer;
+import core.TokenizeException;
+import core.Tokenizer;
 import org.junit.Test;
 
 import java.util.List;
@@ -24,7 +22,7 @@ public class TokenizerTest {
             assertEquals("my", tokens.get(1));
             assertEquals("cat", tokens.get(2));
 
-            tokens = Tokenizer.parse("xy2Abin=15 | y1=28 | y2 = 27 | echo \"hello\"");
+            tokens = Tokenizer.parse("xy2Abin=15\t|\ty1=28  | y2 = 27 | echo \"hello\"");
             String[] answer = {
               "xy2Abin", "=", "15", "|", "y1", "=", "28",
                     "|", "y2", "=", "27", "|", "echo", "hello"
@@ -39,6 +37,11 @@ public class TokenizerTest {
             assertTrue(false);
         }
 
+        try {
+            Tokenizer.parse("\"i'm sittin im sleepin");
+        } catch (TokenizeException e) {
+            assertTrue(true);
+        }
     }
 }
 
