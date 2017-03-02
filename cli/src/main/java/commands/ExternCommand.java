@@ -5,19 +5,16 @@ import core.Environment;
 import java.io.*;
 
 public class ExternCommand extends Command {
-    private String command;
+    private String[] args;
 
     public ExternCommand(String[] args) {
         super(args);
-        command = "";
-        for (String arg : args) {
-            command += arg;
-        }
+        this.args = args;
     }
 
     @Override
     public InputStream run(Environment env, InputStream inputStream) throws CommandException {
-        ProcessBuilder builder = new ProcessBuilder(command);
+        ProcessBuilder builder = new ProcessBuilder(args);
         builder.redirectErrorStream(true);
         try {
             Process process = builder.start();
@@ -37,9 +34,9 @@ public class ExternCommand extends Command {
             process.waitFor();
             return process.getInputStream();
         } catch (IOException e) {
-            throw new CommandException(command + ": IO error.");
+            throw new CommandException(args[0] + ": IO error.");
         } catch (InterruptedException e) {
-            throw new CommandException(command + ": interrupted.");
+            throw new CommandException(args[0] + ": interrupted.");
         }
     }
 }

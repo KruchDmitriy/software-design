@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public final class Shell {
-    private static final BufferedReader reader =
+    private static final BufferedReader READER =
             new BufferedReader(new InputStreamReader(System.in));
 
     private Shell() {}
@@ -36,8 +36,8 @@ public final class Shell {
                 } else {
                     print(stream);
                 }
-            } catch (PreprocessException | TokenizeException |
-                    InterpretException | RunnerException e) {
+            } catch (PreprocessException | TokenizeException
+                    | InterpretException | RunnerException e) {
                 System.out.println(e.getMessage());
             } catch (IOException e) {
                 isEnd = true;
@@ -46,7 +46,7 @@ public final class Shell {
     }
 
     private static String read() throws IOException {
-        return reader.readLine();
+        return READER.readLine();
     }
 
     private static void print(@NotNull final InputStream stream) {

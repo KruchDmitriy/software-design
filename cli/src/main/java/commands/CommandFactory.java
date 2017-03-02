@@ -36,6 +36,9 @@ public final class CommandFactory {
                 return new ModifyEnv(args);
             }
         }
-        return new ExternCommand((String[]) task.toArray());
+
+        String[] args = new String[task.size()];
+        task.toArray(args);
+        return new ExternCommand(args);
     }
 }

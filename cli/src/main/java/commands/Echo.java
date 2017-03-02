@@ -17,9 +17,10 @@ public class Echo extends Command {
     @Override
     public InputStream run(Environment env, InputStream inputStream) throws CommandException {
         String concat = "";
-        for (String arg : args) {
-            concat += arg;
+        for (int i = 0; i < args.length - 1; i++) {
+            concat += args[i] + " ";
         }
+        concat += args[args.length - 1];
         return new ByteArrayInputStream(concat.getBytes(StandardCharsets.UTF_8));
     }
 }

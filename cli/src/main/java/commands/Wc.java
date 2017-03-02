@@ -16,16 +16,8 @@ public class Wc extends Command {
     @Override
     public InputStream run(Environment env, InputStream inputStream) throws CommandException {
         String answer = "";
-        if (filenames.length == 0) {
+        if (filenames == null) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            answer = getCounts(reader);
-        } else if (filenames.length == 1) {
-            BufferedReader reader;
-            try {
-                reader = new BufferedReader(new FileReader(filenames[0]));
-            } catch (FileNotFoundException e) {
-                throw new CommandException("wc: No such file or directory.");
-            }
             answer = getCounts(reader);
         } else {
             for (String filename : filenames) {
@@ -51,7 +43,7 @@ public class Wc extends Command {
             int countLines = 0;
             while ((line = reader.readLine()) != null) {
                 countBytes += line.getBytes("UTF-8").length;
-                countWords += line.split("\\s").length;
+                countWords += countNonEmpty(line.split("\\s+"));
                 countLines++;
             }
             reader.close();
@@ -60,5 +52,15 @@ public class Wc extends Command {
         } catch (IOException e) {
             throw new CommandException("wc: Error while reading stream.");
         }
+    }
+
+    private int countNonEmpty(String[] strings) {
+        int count = 0;
+        for (String str : strings) {
+            if (str.length() != 0) {
+                count++;
+            }
+        }
+        return count;
     }
 }
