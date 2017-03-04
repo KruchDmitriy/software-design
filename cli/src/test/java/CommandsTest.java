@@ -18,15 +18,18 @@ public class CommandsTest {
 
     @Test
     public void wcTest() {
-        String[] args = { "pom.xml", "cli.iml" };
+        String[] args = { "src/test/resources/test.txt",
+                "src/test/resources/test2.txt" };
         Command wc = new Wc(args);
         InputStream out;
         try {
             out = wc.run(environment, emptyInputStream);
             List<String> outLines = readFromStream(out);
             assertEquals(2, outLines.size());
-            assertEquals("61\t62\t2135 pom.xml", outLines.get(0));
-            assertEquals("31\t98\t1739 cli.iml", outLines.get(1));
+            assertEquals("4\t8\t32 src/test/resources/test.txt",
+                    outLines.get(0));
+            assertEquals("6\t16\t63 src/test/resources/test2.txt",
+                    outLines.get(1));
         } catch (CommandException | IOException e) {
             assertTrue(false);
             e.printStackTrace();
@@ -58,7 +61,7 @@ public class CommandsTest {
     @Test
     public void externCommandTest() {
         String[] args = {"ls", "-a"};
-        Command cmd = new ExternCommand(args);
+        Command cmd = new ExternalCommand(args);
         try {
             InputStream out = cmd.run(environment, emptyInputStream);
             List<String> outLines = readFromStream(out);
@@ -74,7 +77,7 @@ public class CommandsTest {
         }
 
         String[] args2 = {"strangeProcess.nobodyKnowsIt"};
-        cmd = new ExternCommand(args2);
+        cmd = new ExternalCommand(args2);
         try {
             cmd.run(environment, emptyInputStream);
         } catch (CommandException e) {

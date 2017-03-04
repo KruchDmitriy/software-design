@@ -50,7 +50,7 @@
                             <goal>check</goal>
                         </goals>
                         <configuration>
-                            <configLocation>src/test/java/checkstyle.xml</configLocation>
+                            <configLocation>src/test/resources/checkstyle.xml</configLocation>
                             <failOnViolation>true</failOnViolation>
                         </configuration>
                     </execution>

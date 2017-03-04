@@ -10,14 +10,26 @@ public final class CommandFactory {
 
     private CommandFactory() {}
 
+    /**
+     * Creates command from task
+     * @param task
+     * @return command
+     */
     public static Command getCommand(List<String> task) {
         boolean isBuiltInCmd = Stream.of(BUILT_IN_COMMANDS).anyMatch(
                 (String str) -> str.equals(task.get(0)));
+        final int modifyArgsSize = 2;
         if (isBuiltInCmd) {
             String name = task.get(0);
             task.remove(0);
-            String[] args = new String[task.size()];
-            task.toArray(args);
+            String[] args;
+            if (task.size() > 0) {
+                args = new String[task.size()];
+                task.toArray(args);
+            } else {
+                args = null;
+            }
+
             switch (name) {
                 case "cat":
                     return new Cat(args);
@@ -29,16 +41,28 @@ public final class CommandFactory {
                     return new Pwd(args);
                 case "wc":
                     return new Wc(args);
+                default:
+                    String[] extCmdArgs = new String[task.size()];
+                    task.toArray(extCmdArgs);
+                    return new ExternalCommand(extCmdArgs);
             }
-        } else if (task.get(1).equals("=")) {
-            if (task.size() == 3) {
-                String[] args = {task.get(0), task.get(2)};
+        } else if (task.size() <= modifyArgsSize) {
+            if (task.get(0).contains("=")) {
+                String[] args = new String[2];
+                String[] split = task.get(0).split("=");
+                args[0] = split[0];
+                if (task.size() == 1) {
+                    args[1] = split[1];
+                } else {
+                    args[1] = task.get(1);
+                }
+
                 return new ModifyEnv(args);
             }
         }
 
         String[] args = new String[task.size()];
         task.toArray(args);
-        return new ExternCommand(args);
+        return new ExternalCommand(args);
     }
 }

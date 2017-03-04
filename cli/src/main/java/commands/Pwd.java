@@ -6,14 +6,19 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Represents a command that can print current working directory.
+ */
 public class Pwd extends Command {
     public Pwd(String[] args) {
         super(args);
     }
 
     @Override
-    public InputStream run(Environment env, InputStream inputStream) throws CommandException {
+    public InputStream run(Environment env, InputStream inputStream)
+            throws CommandException {
         String currentDirectory = System.getProperty("user.dir");
-        return new ByteArrayInputStream(currentDirectory.getBytes(StandardCharsets.UTF_8));
+        return new ByteArrayInputStream(currentDirectory.getBytes(
+                StandardCharsets.UTF_8));
     }
 }

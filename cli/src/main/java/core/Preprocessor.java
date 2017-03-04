@@ -1,9 +1,22 @@
 package core;
 
+/**
+ * Contains methods that preprocess a string
+ */
 public final class Preprocessor {
     private Preprocessor() {}
-    public static String parse(Environment environment, final String rawLine) throws PreprocessException {
-        String processedLine = "";
+
+    /**
+     * Takes a raw string from shell and substitute all occurrences
+     * of $var, if $var not in single quotes, to var from environment.
+     * @param environment
+     * @param rawLine
+     * @return String where made all substitutions
+     * @throws PreprocessException - throws if mismatching quotes were found
+     */
+    public static String parse(Environment environment, final String rawLine)
+            throws PreprocessException {
+        StringBuilder processedLineBuilder = new StringBuilder();
         for (int i = 0; i < rawLine.length(); i++) {
             char curChar = rawLine.charAt(i);
             if (curChar == '\'') {
@@ -11,19 +24,19 @@ public final class Preprocessor {
                 if (j == -1) {
                     throw new PreprocessException("Only one single quote.");
                 }
-                processedLine += rawLine.substring(i, j + 1);
+                processedLineBuilder.append(rawLine.substring(i, j + 1));
                 i = j;
             } else if (curChar == '$') {
                 int endNamePosition = getFirstNonAlpha(rawLine, i + 1);
                 String name = rawLine.substring(i + 1, endNamePosition);
                 String value = environment.read(name);
-                processedLine += value;
+                processedLineBuilder.append(value);
                 i = endNamePosition - 1;
             } else {
-                processedLine += curChar;
+                processedLineBuilder.append(curChar);
             }
         }
-        return processedLine;
+        return processedLineBuilder.toString();
     }
 
     private static int getFirstNonAlpha(String string, int fromIndex) {

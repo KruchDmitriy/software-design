@@ -5,6 +5,10 @@ import core.Environment;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Represent a command that counts the number of
+ * lines, words, bytes in input stream.
+ */
 public class Wc extends Command {
     private final String[] filenames;
 
@@ -13,11 +17,21 @@ public class Wc extends Command {
         filenames = args;
     }
 
+    /**
+     * Counts the number of lines, words, bytes in input stream.
+     * @param env - environment
+     * @param inputStream
+     * @return Three values the number of lines, words, bytes [and file names]
+     * if it was read from file.
+     * @throws CommandException - if given file not found
+     */
     @Override
-    public InputStream run(Environment env, InputStream inputStream) throws CommandException {
+    public InputStream run(Environment env, InputStream inputStream)
+            throws CommandException {
         String answer = "";
         if (filenames == null) {
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(inputStream));
             answer = getCounts(reader);
         } else {
             for (String filename : filenames) {
@@ -25,17 +39,19 @@ public class Wc extends Command {
                 try {
                     reader = new BufferedReader(new FileReader(filename));
                 } catch (FileNotFoundException e) {
-                    throw new CommandException("wc: No such file or directory.");
+                    throw new CommandException(
+                            "wc: No such file or directory.");
                 }
 
                 answer += getCounts(reader) + " " + filename + "\n";
             }
         }
 
-        return new ByteArrayInputStream(answer.getBytes(StandardCharsets.UTF_8));
+        return new ByteArrayInputStream(answer.getBytes(
+                StandardCharsets.UTF_8));
     }
 
-    public String getCounts(BufferedReader reader) throws CommandException {
+    private String getCounts(BufferedReader reader) throws CommandException {
         try {
             String line;
             int countBytes = 0;

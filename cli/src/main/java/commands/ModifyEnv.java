@@ -6,6 +6,9 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * Write or replace environment variable command.
+ */
 public class ModifyEnv extends Command {
     private final String name;
     private final String value;
@@ -17,7 +20,8 @@ public class ModifyEnv extends Command {
     }
 
     @Override
-    public InputStream run(Environment env, InputStream inputStream) throws CommandException {
+    public InputStream run(Environment env, InputStream inputStream)
+            throws CommandException {
         env.write(name, value);
         return new ByteArrayInputStream("\n".getBytes(StandardCharsets.UTF_8));
     }
