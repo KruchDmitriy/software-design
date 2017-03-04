@@ -7,3 +7,5 @@ addons:
             - oracle-java8-installer
 sudo: false
 script: cd cli && mvn clean verify
+notifications:
+    email: false
