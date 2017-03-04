@@ -68,9 +68,10 @@ public class CommandsTest {
             assertEquals(".", outLines.get(0));
             assertEquals("..", outLines.get(1));
             assertEquals("cli.iml", outLines.get(2));
-            assertEquals(".idea", outLines.get(3));
-            assertEquals("pom.xml", outLines.get(4));
-            assertEquals("src", outLines.get(5));
+            assertEquals("diagram.png", outLines.get(3));
+            assertEquals(".idea", outLines.get(4));
+            assertEquals("pom.xml", outLines.get(5));
+            assertEquals("src", outLines.get(6));
         } catch (CommandException | IOException e) {
             assertTrue(false);
             e.printStackTrace();
@@ -138,8 +139,10 @@ public class CommandsTest {
         }
     }
 
-    private List<String> readFromStream(InputStream inputStream) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+    private List<String> readFromStream(InputStream inputStream)
+            throws IOException {
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(inputStream));
         List<String> data = new ArrayList<>();
         String line;
         while ((line = reader.readLine()) != null) {
