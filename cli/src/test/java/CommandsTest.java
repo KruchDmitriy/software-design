@@ -60,18 +60,16 @@ public class CommandsTest {
 
     @Test
     public void externCommandTest() {
-        String[] args = {"ls", "-a"};
+        String[] args = {"ls", "-a", "cli/src/test/resources/"};
         Command cmd = new ExternalCommand(args);
         try {
             InputStream out = cmd.run(environment, emptyInputStream);
             List<String> outLines = readFromStream(out);
             assertEquals(".", outLines.get(0));
             assertEquals("..", outLines.get(1));
-            assertEquals("cli.iml", outLines.get(2));
-            assertEquals("diagram.png", outLines.get(3));
-            assertEquals(".idea", outLines.get(4));
-            assertEquals("pom.xml", outLines.get(5));
-            assertEquals("src", outLines.get(6));
+            assertEquals("checkstyle.xml", outLines.get(2));
+            assertEquals("test2.txt", outLines.get(3));
+            assertEquals("test.txt", outLines.get(4));
         } catch (CommandException | IOException e) {
             assertTrue(false);
             e.printStackTrace();
