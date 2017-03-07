@@ -60,7 +60,7 @@ public class CommandsTest {
 
     @Test
     public void externCommandTest() {
-        String[] args = {"ls", "-a", "cli/src/test/resources/"};
+        String[] args = {"ls", "-a", "src/test/resources/"};
         Command cmd = new ExternalCommand(args);
         try {
             InputStream out = cmd.run(environment, emptyInputStream);
