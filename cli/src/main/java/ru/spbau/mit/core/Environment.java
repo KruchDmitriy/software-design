@@ -9,7 +9,7 @@ public class Environment {
     private HashMap<String, String> hashMap = new HashMap<>();
 
     /**
-     * @param name
+     * @param name variable name
      * @return value of variable name in environment
      */
     public String read(final String name) {
@@ -22,8 +22,8 @@ public class Environment {
 
     /**
      * Add variable name with value to the environment
-     * @param name
-     * @param value
+     * @param name variable name
+     * @param value value to be written to variable
      */
     public void write(final String name, final String value) {
         hashMap.put(name, value);

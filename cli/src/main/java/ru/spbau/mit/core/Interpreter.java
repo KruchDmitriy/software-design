@@ -17,12 +17,12 @@ public final class Interpreter {
      * Takes a list of tokens from Tokenizer and translates them to commands.
      * It splits tokens to groups called "tasks" by "|".
      * From every task created a command.
-     * @param tokens
+     * @param tokens array of independent strings to interpret in commands
      * @return list of commands
      * @throws InterpretException - throws exception if there were no tokens
      * between two pipes.
      */
-    public static List<Command> perform(final List<String> tokens)
+    public static List<Command> interpret(final List<String> tokens)
             throws InterpretException {
         List<Command> commands = new ArrayList<>();
         for (List<String> task : getTasks(tokens)) {
@@ -33,7 +33,7 @@ public final class Interpreter {
 
     /**
      * Splits strings by pipe.
-     * @param tokens
+     * @param tokens array of independent strings to interpret in commands
      * @return list of list of strings
      * @throws InterpretException - throws exception if there were no tokens
      * between two pipes.
@@ -43,8 +43,8 @@ public final class Interpreter {
         List<List<String>> tasks = new ArrayList<>();
         List<String> task = new ArrayList<>();
 
-        for (int i = 0; i < tokens.size(); i++) {
-            if (tokens.get(i).equals("|")) {
+        for (String token : tokens) {
+            if (token.equals("|")) {
                 if (task.size() == 0) {
                     throw new InterpretException("syntax error near "
                             + "unexpected token '|'");
@@ -52,7 +52,7 @@ public final class Interpreter {
                 tasks.add(task);
                 task = new ArrayList<>();
             } else {
-                task.add(tokens.get(i));
+                task.add(token);
             }
         }
         if (task.size() != 0) {

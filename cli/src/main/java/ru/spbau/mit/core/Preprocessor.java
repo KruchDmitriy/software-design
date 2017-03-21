@@ -11,8 +11,8 @@ public final class Preprocessor {
     /**
      * Takes a raw string from shell and substitute all occurrences
      * of $var, if $var not in single quotes, to var from environment.
-     * @param environment
-     * @param rawLine
+     * @param environment environment that commands executed with
+     * @param rawLine input string from command line
      * @return String where made all substitutions
      * @throws PreprocessorException - throws if mismatching quotes were found
      */

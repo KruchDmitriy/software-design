@@ -19,8 +19,8 @@ public final class Runner {
     /**
      * Takes a list of commands from Interpreter and executes them one by one,
      * propagating output of previous command to the input of next command.
-     * @param environment - dictionary where (key,value) = (nameVariable,value).
-     * @param commands
+     * @param environment dictionary where (key,value) = (nameVariable,value).
+     * @param commands a list of commands to be executed
      * @return output of the last command
      * @throws RunnerException - rethrows command exception.
      */

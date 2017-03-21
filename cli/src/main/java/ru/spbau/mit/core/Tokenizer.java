@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Contains methods that tokenizes string
+ * Contains methods that tokenize a string
  */
 public final class Tokenizer {
     /**

@@ -36,7 +36,7 @@ public final class Shell {
 
                 String processedLine = Preprocessor.parse(environment, line);
                 List<String> tokens = Tokenizer.parse(processedLine);
-                List<Command> commands = Interpreter.perform(tokens);
+                List<Command> commands = Interpreter.interpret(tokens);
                 InputStream stream = Runner.execute(environment, commands);
 
                 if (stream == null) {
