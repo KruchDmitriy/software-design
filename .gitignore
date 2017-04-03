@@ -12,9 +12,11 @@
 .idea/modules.xml
 .idea/preferred-vcs.xml
 .idea/software-design.iml
-.idea/uiDesigner.xmll
+.idea/uiDesigner.xml
 .idea/workspace.xml
 cli/cli.iml
+*/.idea/dictionaries/
+*/.idea/workspace.xml
 
 # Sensitive or high-churn files:
 /*/.idea/**/dataSources/
