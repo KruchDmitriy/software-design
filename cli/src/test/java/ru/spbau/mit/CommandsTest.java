@@ -1,5 +1,7 @@
 package ru.spbau.mit;
 
+import ru.spbau.mit.commands.Grep;
+import junit.framework.TestCase;
 import org.junit.Test;
 import ru.spbau.mit.commands.*;
 import ru.spbau.mit.commands.exceptions.CommandException;
@@ -30,7 +32,7 @@ public class CommandsTest {
         assertEquals(2, outLines.size());
         assertEquals("4\t8\t32 src/test/resources/test.txt",
                 outLines.get(0));
-        assertEquals("6\t16\t63 src/test/resources/test2.txt",
+        assertEquals("10\t22\t97 src/test/resources/test2.txt",
                 outLines.get(1));
     }
 
@@ -112,6 +114,87 @@ public class CommandsTest {
         List<String> lines = readFromStream(resultStream);
         assertEquals(1, lines.size());
         assertEquals(pwd, lines.get(0));
+    }
+
+    @Test
+    public void grepTestSimple() throws CommandException, IOException {
+        String[] result = {"lorem ipsum"};
+        String[] args = {"lorem", "src/test/resources/test2.txt"};
+        Command grep = new Grep(args);
+
+        InputStream out = grep.run(environment, emptyInputStream);
+        List<String> outLines = readFromStream(out);
+        String[] outArray = new String[outLines.size()];
+        outLines.toArray(outArray);
+        for (int i = 0; i < result.length; i++) {
+            TestCase.assertEquals(result[i], outArray[i]);
+        }
+    }
+
+    @Test
+    public void grepCaseInsensitiveTest() throws CommandException, IOException {
+        String[] result = {"lorem ipsum", "LOREM IPSUM",
+                "IPSUM LOREMA"};
+        String[] args = {"-i", "lorem", "src/test/resources/test2.txt"};
+        Command grep = new Grep(args);
+
+        InputStream out = grep.run(environment, emptyInputStream);
+        List<String> outLines = readFromStream(out);
+        String[] outArray = new String[outLines.size()];
+        outLines.toArray(outArray);
+        for (int i = 0; i < result.length; i++) {
+            TestCase.assertEquals(result[i], outArray[i]);
+        }
+    }
+
+
+    @Test
+    public void grepWordBoundsTest() throws CommandException, IOException {
+        String[] result = {"lorem ipsum", "LOREM IPSUM"};
+        String[] args = {"-i", "-w", "lorem",
+                "src/test/resources/test2.txt"};
+        Command grep = new Grep(args);
+
+        InputStream out = grep.run(environment, emptyInputStream);
+        List<String> outLines = readFromStream(out);
+        String[] outArray = new String[outLines.size()];
+        outLines.toArray(outArray);
+        for (int i = 0; i < result.length; i++) {
+            TestCase.assertEquals(result[i], outArray[i]);
+        }
+    }
+
+    @Test
+    public void grepAfterLinesTest() throws CommandException, IOException {
+        String[] result = {"quadro je", "sen ti men tale",
+                "4 30 28 11 voka voka", "    op op op"};
+        String[] args = {"-A", "3", "quadro je",
+                "src/test/resources/test2.txt"};
+        Command grep = new Grep(args);
+
+        InputStream out = grep.run(environment, emptyInputStream);
+        List<String> outLines = readFromStream(out);
+        String[] outArray = new String[outLines.size()];
+        outLines.toArray(outArray);
+        TestCase.assertEquals(result.length, outArray.length);
+        for (int i = 0; i < result.length; i++) {
+            TestCase.assertEquals(result[i], outArray[i]);
+        }
+    }
+
+    @Test
+    public void grepRegExpTest() throws CommandException, IOException {
+        String[] result = {"4 30 28 11 voka voka"};
+        String[] args = {"\\d+", "src/test/resources/test2.txt"};
+        Command grep = new Grep(args);
+
+        InputStream out = grep.run(environment, emptyInputStream);
+        List<String> outLines = readFromStream(out);
+        String[] outArray = new String[outLines.size()];
+        outLines.toArray(outArray);
+        for (int i = 0; i < result.length; i++) {
+            TestCase.assertEquals(result[i], outArray[i]);
+        }
     }
 
     private List<String> readFromStream(InputStream inputStream)

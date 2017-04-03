@@ -67,7 +67,8 @@ public final class Shell {
      * @param stream - inputStream of executed commands
      */
     private static void print(final InputStream stream) {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream))) {
+        try (BufferedReader reader = new BufferedReader(
+                new InputStreamReader(stream))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
