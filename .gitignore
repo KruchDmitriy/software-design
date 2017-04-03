@@ -6,16 +6,14 @@
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
-
 .idea/compiler.xml
 .idea/encodings.xml
 .idea/libraries/
 .idea/modules.xml
 .idea/preferred-vcs.xml
 .idea/software-design.iml
-.idea/uiDesigner.xml
-cli/.idea/dictionaries/
-cli/.idea/workspace.xml
+.idea/uiDesigner.xmll
+.idea/workspace.xml
 cli/cli.iml
 
 # Sensitive or high-churn files:
