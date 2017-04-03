@@ -5,7 +5,7 @@ import ru.spbau.mit.core.Environment;
 import java.io.InputStream;
 
 /**
- * Abstract class that represents a command.
+ * An interface that represents a command.
  * We create command passes to it arguments.
  * Ones it created we can run this command
  * passes to it environment and input stream.

@@ -11,8 +11,6 @@ import java.nio.charset.StandardCharsets;
  * Represents a command that can print current working directory.
  */
 public class Pwd implements Command {
-    public Pwd() {}
-
     /**
      * Run a command.
      * @param env environment that command executed with

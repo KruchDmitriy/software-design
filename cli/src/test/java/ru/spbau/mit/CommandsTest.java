@@ -19,9 +19,9 @@ public class CommandsTest {
             "".getBytes(StandardCharsets.UTF_8));
 
     @Test
-    public void wcTest() throws CommandException, IOException {
-        String[] args = { "src/test/resources/test.txt",
-                "src/test/resources/test2.txt" };
+    public void wcSimpleTest() throws CommandException, IOException {
+        String[] args = {"src/test/resources/test.txt",
+                "src/test/resources/test2.txt"};
         Command wc = new Wc(args);
         InputStream out;
 
@@ -32,26 +32,34 @@ public class CommandsTest {
                 outLines.get(0));
         assertEquals("6\t16\t63 src/test/resources/test2.txt",
                 outLines.get(1));
+    }
 
-        wc = new Wc(null);
+    @Test
+    public void wcFromStreamTest() throws CommandException, IOException {
+        Command wc = new Wc(null);
+        InputStream out;
         InputStream inputStream = new ByteArrayInputStream(
                 "all cats join in..."
                         .getBytes(StandardCharsets.UTF_8));
         out = wc.run(environment, inputStream);
-        outLines = readFromStream(out);
+        List<String> outLines = readFromStream(out);
         assertEquals(1, outLines.size());
         assertEquals("1\t4\t19", outLines.get(0));
-
-        String[] args2 = { "/src/c1435xasdfb.txt.json.function.joba.joba" };
-        wc = new Wc(args2);
-        try {
-            wc.run(environment, emptyInputStream);
-        } catch (CommandException e) {
-            assertEquals("wc: No such file or directory.", e.getMessage());
-        }
     }
 
     @Test
+    public void wcExceptionTest() throws CommandException, IOException {
+        String[] args2 = { "/src/c1435xasdfb.txt.json.function.joba.joba" };
+        Command wc = new Wc(args2);
+        try {
+            wc.run(environment, emptyInputStream);
+        } catch (CommandException e) {
+            assertEquals("wc: No such file or directory.",
+                    e.getMessage());
+        }
+    }
+
+    @Test(expected = CommandException.class)
     public void externCommandTest() throws CommandException, IOException {
         String[] args = {"ls", "-a", "src/test/resources/"};
         Command cmd = new ExternalCommand(args);
@@ -66,11 +74,7 @@ public class CommandsTest {
 
         String[] args2 = {"strangeProcess.nobodyKnowsIt"};
         cmd = new ExternalCommand(args2);
-        try {
-            cmd.run(environment, emptyInputStream);
-        } catch (CommandException e) {
-            assertTrue(true);
-        }
+        cmd.run(environment, emptyInputStream);
     }
 
     @Test

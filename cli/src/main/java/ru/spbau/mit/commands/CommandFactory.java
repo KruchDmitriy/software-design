@@ -3,6 +3,10 @@ package ru.spbau.mit.commands;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Factory for commands. Used for generating commands from task
+ * on the fly. The task is a list of tokens.
+ */
 public final class CommandFactory {
     private static final String[] BUILT_IN_COMMANDS = {
         "cat", "echo", "exit", "pwd", "wc"

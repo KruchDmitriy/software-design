@@ -9,8 +9,6 @@ import java.io.InputStream;
  * Shutdown shell command.
  */
 public class Exit implements Command {
-    public Exit() {}
-
     /**
      * Runs an exit command.
      * @param env environment that command executed with (this parameter
