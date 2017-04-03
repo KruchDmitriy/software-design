@@ -9,7 +9,7 @@ import java.util.stream.Stream;
  */
 public final class CommandFactory {
     private static final String[] BUILT_IN_COMMANDS = {
-        "cat", "echo", "exit", "pwd", "wc"
+        "cat", "echo", "exit", "grep", "pwd", "wc"
     };
 
     private CommandFactory() {}
@@ -41,6 +41,8 @@ public final class CommandFactory {
                     return new Echo(args);
                 case "exit":
                     return new Exit();
+                case "grep":
+                    return new Grep(args);
                 case "pwd":
                     return new Pwd();
                 case "wc":

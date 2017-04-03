@@ -26,6 +26,12 @@
             <artifactId>junit-addons</artifactId>
             <version>1.4</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.lexicalscope.jewelcli/jewelcli -->
+        <dependency>
+            <groupId>com.lexicalscope.jewelcli</groupId>
+            <artifactId>jewelcli</artifactId>
+            <version>0.8.9</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
