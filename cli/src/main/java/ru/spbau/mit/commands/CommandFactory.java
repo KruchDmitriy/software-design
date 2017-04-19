@@ -49,8 +49,8 @@ public final class CommandFactory {
                     return new Wc(args);
                 case "ls":
                     return new Ls(args);
-//                case "cd":
-//                    return new Cd(args);
+                case "cd":
+                    return new Cd(args);
                 default:
                     String[] extCmdArgs = new String[task.size()];
                     task.toArray(extCmdArgs);

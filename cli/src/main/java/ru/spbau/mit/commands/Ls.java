@@ -15,7 +15,11 @@ import java.nio.charset.StandardCharsets;
 public class Ls implements Command {
     private final String path;
     public Ls(String[] args) {
-        path = args.length == 0 ? null : args[0];
+        if (args == null) {
+            path = null;
+        } else {
+            path = args.length == 0 ? null : args[0];
+        }
     }
 
     /**
