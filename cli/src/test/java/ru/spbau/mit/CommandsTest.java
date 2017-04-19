@@ -61,6 +61,55 @@ public class CommandsTest {
         }
     }
 
+    @Test
+    public void lsSimpleTest() throws CommandException, IOException {
+        String arg[] = {"./src/test/resources"};
+        Command ls = new Ls(arg);
+        InputStream out;
+
+        out = ls.run(environment, emptyInputStream);
+        List<String> outLines = readFromStream(out);
+        assertEquals(3, outLines.size());
+    }
+
+    @Test
+    public void lsExceptionTest() throws CommandException, IOException {
+        String[] args2 = { "/src/non_exist_file" };
+        Command ls = new Ls(args2);
+        try {
+            ls.run(environment, emptyInputStream);
+        } catch (CommandException e) {
+            assertEquals("ls: No such file or directory.",
+                    e.getMessage());
+        }
+    }
+
+    @Test
+    public void cdSimpleTest() throws CommandException, IOException {
+        String arg[] = {"src/test/resources"};
+        Command cd = new Cd(arg);
+        InputStream out;
+        cd.run(environment, emptyInputStream);
+
+        Command ls = new Ls(new String[]{});
+        out = ls.run(environment, emptyInputStream);
+        List<String> outLines = readFromStream(out);
+        assertEquals(3, outLines.size());
+    }
+
+
+    @Test
+    public void cdExceptionTest() throws CommandException, IOException {
+        String[] args2 = { "src/non_exist_dir" };
+        Command cd = new Cd(args2);
+        try {
+            cd.run(environment, emptyInputStream);
+        } catch (CommandException e) {
+            assertEquals("cd: src/non_exist_dir: No such file or directory.",
+                    e.getMessage());
+        }
+    }
+
     @Test(expected = CommandException.class)
     public void externCommandTest() throws CommandException, IOException {
         String[] args = {"ls", "-a", "src/test/resources/"};
