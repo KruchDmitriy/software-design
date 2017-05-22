@@ -1,5 +1,9 @@
 package ru.spbau.mit.model;
 
+import ru.spbau.mit.Entity;
+import ru.spbau.mit.messages.GameOver;
+import ru.spbau.mit.messages.Message;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,15 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class World {
+public class World extends Entity {
     private static final String DEFAULT_MAP = "src/main/resources/default.map";
 
     private static final int DEFAULT_SIZE = 42;
     private int size = DEFAULT_SIZE;
     private List<GameObject> objects = new ArrayList<>();
+    private CollisionHandler collisionHandler;
 
     public World() {
         loadMap(DEFAULT_MAP);
+        collisionHandler = new CollisionHandler(objects, size);
+        objects.forEach(object -> object.addFilter(collisionHandler));
+        objects.stream()
+                .filter(object -> object instanceof Player)
+                .forEach(object -> object.subscribe(this));
     }
 
     public int getSize() {
@@ -93,6 +103,15 @@ public class World {
             }
         } catch (IOException e) {
             System.out.println("Error loading map.");
+        }
+    }
+
+    @Override
+    public void process(Message message) {
+        super.process(message);
+
+        if (message instanceof GameOver) {
+            notify(message);
         }
     }
 }

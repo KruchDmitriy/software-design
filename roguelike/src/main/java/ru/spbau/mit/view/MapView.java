@@ -11,10 +11,12 @@ public class MapView {
         mapImage = new Image("file:src/main/resources/defaultMapImg.jpg",
                 width, height, false, false);
 
-        pane.getChildren().add(new ImageView(mapImage));
+        ImageView map = new ImageView(mapImage);
+
+        pane.getChildren().add(map);
     }
 
-    public void draw() {
-
+    public Image getMapImage() {
+        return mapImage;
     }
 }

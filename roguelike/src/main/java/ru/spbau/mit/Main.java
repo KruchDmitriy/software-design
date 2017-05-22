@@ -1,7 +1,10 @@
 package ru.spbau.mit;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import ru.spbau.mit.controller.WorldController;
 import ru.spbau.mit.model.World;
@@ -19,11 +22,14 @@ public class Main extends Application {
         primaryStage.setTitle("Hello World!");
 
         World world = new World();
-        WorldView worldView = new WorldView(world, WINDOW_SIZE, world.getSize());
-        WorldController worldController = new WorldController(world);
 
-        primaryStage.setScene(new Scene(worldView.getRoot(),
-                WINDOW_SIZE, WINDOW_SIZE));
+        WorldView worldView = new WorldView(world, WINDOW_SIZE, world.getSize());
+        Scene primaryScene = new Scene(worldView.getRoot(),
+                worldView.getWidth(), worldView.getHeight());
+
+        WorldController worldController = new WorldController(world, primaryScene);
+
+        primaryStage.setScene(primaryScene);
         primaryStage.show();
     }
 }

@@ -1,5 +1,7 @@
 package ru.spbau.mit.model;
 
+import ru.spbau.mit.model.items.ItemFactory;
+
 public final class ObjectFactory {
     private ObjectFactory() {}
 
@@ -10,7 +12,7 @@ public final class ObjectFactory {
             case ENEMY:
                 return new Enemy(info.x, info.y);
             case ITEM:
-                return new Item(info.x, info.y);
+                return ItemFactory.createItem(info.x, info.y);
             case LANDSCAPE:
                 return new Landscape(info.x, info.y);
             default:

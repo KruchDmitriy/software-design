@@ -1,7 +1,6 @@
 package ru.spbau.mit.controller;
 
 import ru.spbau.mit.model.*;
-import ru.spbau.mit.view.*;
 
 public final class ControllerFactory {
     private ControllerFactory() {}
@@ -12,15 +11,15 @@ public final class ControllerFactory {
         }
 
         if (gameObject instanceof Enemy) {
-            return new EnemyController((Enemy) gameObject);
+            return new EnemyController(gameObject);
         }
 
         if (gameObject instanceof Item) {
-            return new ItemController((Item) gameObject);
+            return new ItemController(gameObject);
         }
 
         if (gameObject instanceof Landscape) {
-            return new LandscapeController((Landscape) gameObject);
+            return new LandscapeController(gameObject);
         }
 
         return null;
