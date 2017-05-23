@@ -68,7 +68,7 @@ public class LogView extends Entity {
         super.process(message);
 
         if (message instanceof PlayerStatusMessage) {
-            CHARACTER_STAT.remove(0, CHARACTER_STAT.size());
+            CHARACTER_STAT.clear();
 
             PlayerStatusMessage playerMessage = (PlayerStatusMessage) message;
 

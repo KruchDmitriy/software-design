@@ -99,7 +99,6 @@ public class WorldView extends Entity {
         if (message instanceof GameOver) {
             root.getChildren().clear();
             root.getChildren().add(gameOver);
-//            gameOver.toFront();
         }
     }
 }

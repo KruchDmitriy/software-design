@@ -57,7 +57,7 @@ public class Player extends GameObject {
     private Characteristics chars = new Characteristics();
     private List<Item> takenItems = new ArrayList<>();
 
-    Player(int x, int y) {
+    public Player(int x, int y) {
         super(x, y);
     }
 
@@ -107,5 +107,9 @@ public class Player extends GameObject {
                 notify(new GameOver());
             }
         }
+    }
+
+    public List<Item> getTakenItems() {
+        return takenItems;
     }
 }

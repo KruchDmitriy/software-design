@@ -35,7 +35,7 @@ public class Enemy extends GameObject {
     private static final String NAME = "Fox";
     private Characteristics chars = new Characteristics();
 
-    Enemy(int x, int y) {
+    public Enemy(int x, int y) {
         super(x, y);
     }
 

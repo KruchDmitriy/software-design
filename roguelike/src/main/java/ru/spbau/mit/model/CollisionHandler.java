@@ -35,21 +35,27 @@ public class CollisionHandler implements Filter {
             if (positions.containsKey(position)) {
                 GameObject object = positions.get(position);
 
-                if (object instanceof Enemy && receiver instanceof Player) {
-                    Player player = (Player) receiver;
+                if (object instanceof Enemy && gameObject instanceof Player) {
+                    Player player = (Player) gameObject;
                     Enemy enemy = (Enemy) object;
 
+                    Message playerMessage = new FightMessage(enemy.getDamage(),
+                            enemy.toString(), player.toString());
+
+                    Message enemyMessage;
                     if (enemy.getHealth() - player.getDamage() <= 0) {
                         positions.remove(position);
-                        enemy.process(new DeathMessage(enemy));
+                        enemyMessage = new DeathMessage(enemy);
                     } else {
-                        enemy.process(new FightMessage(player.getDamage(),
-                                receiver.toString(), object.toString()));
+                        enemyMessage = new FightMessage(player.getDamage(),
+                                player.toString(), enemy.toString());
                     }
 
-                    return new FightMessage(enemy.getDamage(),
-                            object.toString(), receiver.toString());
-                } else if (object instanceof Item && receiver instanceof Player) {
+                    enemy.process(enemyMessage);
+                    return playerMessage;
+                }
+
+                if (object instanceof Item && receiver instanceof Player) {
                     ItemTakenMessage itemMsg = new ItemTakenMessage((Item) object);
 
                     receiver.process(itemMsg);
@@ -59,10 +65,11 @@ public class CollisionHandler implements Filter {
                     positions.put(position, gameObject);
 
                     return shiftMessage;
-                } else {
-                    shiftMessage.setDirection(ShiftDirection.NO_SHIFT);
-                    return shiftMessage;
                 }
+
+
+                shiftMessage.setDirection(ShiftDirection.NO_SHIFT);
+                return shiftMessage;
             }
 
             if (position.x < 0 || position.x >= mapSize
