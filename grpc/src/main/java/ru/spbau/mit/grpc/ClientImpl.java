@@ -33,7 +33,6 @@ public class ClientImpl {
 
     private final ManagedChannel channel;
     private final ChatGrpc.ChatFutureStub chatStub;
-//    private final ChatGrpc.ChatBlockingStub blockingStub;
 
     /** Construct client connecting to HelloWorld server at {@code host:port}. */
     public ClientImpl(String host, int port) {
