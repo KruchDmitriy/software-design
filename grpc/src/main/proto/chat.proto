@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "ru.spbau.mit";
+
+package grpc;
+
+service Chat {
+    rpc SayHello (HelloRequest) returns (HelloReply) {}
+    rpc SendMessage (Message) returns (Void) {}
+    rpc RecieveMessage (Void) returns (Message) {}
+}
+
+message Void {}
+
+message Message {
+    string content = 1;
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloReply {
+    string name = 1;
+}
