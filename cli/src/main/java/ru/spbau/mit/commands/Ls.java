@@ -34,14 +34,37 @@ public class Ls implements Command {
         if (path == null) {
             curDir = new File(env.read("PWD"));
         } else {
-            curDir = new File(path);
+            File file = new File(path);
+            if (file.isAbsolute()) {
+                curDir = file;
+            } else {
+                String resultPath = env.read("PWD");
+                if (path.equals("..")) {
+                    resultPath = resultPath.substring(0,
+                            resultPath.lastIndexOf(File.separator));
+                    if (resultPath.isEmpty()) {
+                        resultPath = File.separator;
+                    }
+                } else {
+                    if (!path.equals(".")) {
+                        if (resultPath.lastIndexOf(File.separator)
+                                == resultPath.length() - 1) {
+                            resultPath += path;
+                        } else {
+                            resultPath += File.separator + path;
+                        }
+                    }
+                }
+                curDir = new File(resultPath);
+            }
         }
         final String ansiReset = "\u001B[0m";
         final String ansiBlue = "\u001B[34m";
         final StringBuilder answer = new StringBuilder();
         File[] filesList = curDir.listFiles();
         if (filesList == null) {
-            throw new CommandException("ls: No such file or directory.");
+            throw new CommandException("ls: " + curDir.getPath()
+                    + "No such file or directory.");
         }
         for (File f : filesList) {
             if (f.isDirectory()) {

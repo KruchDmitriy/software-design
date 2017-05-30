@@ -21,7 +21,10 @@ public class Pwd implements Command {
     @Override
     public InputStream run(Environment env, InputStream inputStream)
             throws CommandException {
-        String currentDirectory = System.getProperty("user.dir");
+        if (env.read("PWD").isEmpty()) {
+            env.write("PWD", System.getProperty("user.dir"));
+        }
+        String currentDirectory = env.read("PWD");
         return new ByteArrayInputStream(currentDirectory.getBytes(
                 StandardCharsets.UTF_8));
     }

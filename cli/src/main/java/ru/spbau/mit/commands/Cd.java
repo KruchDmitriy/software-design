@@ -19,7 +19,7 @@ public class Cd implements Command {
     }
 
     /**
-     *
+     * Runs cd command.
      * @param env environment that command executed with
      * @param inputStream where to take arguments for command
      * @return empty Input Stream. Change value of PWD variable in Environment
@@ -31,10 +31,32 @@ public class Cd implements Command {
             env.write("PWD", System.getProperty("user.home"));
         } else {
             File path = new File(arg);
-            if (path.exists()) {
+            if (path.isAbsolute()) {
+                if (!path.exists()) {
+                    throw new CommandException("cd: " + path + ": No such file or directory.");
+                }
                 env.write("PWD", path.getAbsolutePath());
             } else {
-                throw new CommandException("cd: " + path + ": No such file or directory.");
+                String resultPath = env.read("PWD");
+                if (arg.equals("..")) {
+                    resultPath = resultPath.substring(0, resultPath.lastIndexOf(File.separator));
+                    if (resultPath.isEmpty()) {
+                        resultPath = File.separator;
+                    }
+                } else {
+                    if (!arg.equals(".")) {
+                        if (resultPath.lastIndexOf(File.separator) == resultPath.length() - 1) {
+                            resultPath += arg;
+                        } else {
+                            resultPath += File.separator + arg;
+                        }
+                    }
+                }
+                if (!new File(resultPath).exists()) {
+                    throw new CommandException("cd: " + resultPath
+                            + ": No such file or directory.");
+                }
+                env.write("PWD", resultPath);
             }
         }
         return new ByteArrayInputStream("".getBytes());
