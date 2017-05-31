@@ -1,10 +1,13 @@
 package ru.spbau.mit.view;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import javafx.util.Callback;
 import ru.spbau.mit.Entity;
 import ru.spbau.mit.messages.*;
 import ru.spbau.mit.model.Player;
@@ -32,6 +35,22 @@ public class LogView extends Entity {
 
         LOG_LIST_VIEW.setItems(LOG_ITEMS);
         LOG_LIST_VIEW.setPrefWidth(logWidth);
+        LOG_LIST_VIEW.getItems().addListener(
+                (ListChangeListener<String>) change ->
+                        LOG_LIST_VIEW.scrollTo(
+                                change.getList().size() - 1
+                        )
+        );
+        LOG_LIST_VIEW.setCellFactory(list -> new ListCell<String>() {
+            {
+                Text text = new Text();
+                text.wrappingWidthProperty().bind(list.widthProperty().subtract(15));
+                text.textProperty().bind(itemProperty());
+
+                setPrefWidth(0);
+                setGraphic(text);
+            }
+        });
 
         TitledPane charStatPane = new TitledPane("Character statistics",
                 LOG_CHAR_STAT_VIEW);
@@ -42,6 +61,8 @@ public class LogView extends Entity {
         infoPane.setCollapsible(false);
         infoPane.setTranslateY(windowSize / 2);
         infoPane.setPrefHeight(windowSize / 2);
+        infoPane.setMouseTransparent(true);
+//        infoPane.
 
         stackPane.setTranslateX(windowSize);
         stackPane.getChildren().addAll(charStatPane, infoPane);

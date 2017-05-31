@@ -12,7 +12,7 @@ public class MilleniumSword extends Item {
 
     @Override
     public String toString() {
-        return "Millenium sword, increase damage by 100";
+        return "Millenium sword, increase damage by " + DAMAGE;
     }
 
     @Override
