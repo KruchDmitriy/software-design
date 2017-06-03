@@ -61,6 +61,53 @@ public class CommandsTest {
         }
     }
 
+    @Test
+    public void lsSimpleTest() throws CommandException, IOException {
+        String arg[] = {"src" + File.separator + "test" + File.separator + "resources"};
+        Command ls = new Ls(arg);
+        InputStream out;
+
+        out = ls.run(environment, emptyInputStream);
+        List<String> outLines = readFromStream(out);
+        assertEquals(3, outLines.size());
+    }
+
+    @Test
+    public void lsExceptionTest() throws CommandException, IOException {
+        String[] args2 = { "src" + File.separator + "non_exist_file" };
+        Command ls = new Ls(args2);
+        try {
+            ls.run(environment, emptyInputStream);
+        } catch (CommandException e) {
+            assertEquals("ls: " + args2[0] + "No such file or directory.",
+                    e.getMessage());
+        }
+    }
+
+    @Test
+    public void cdSimpleTest() throws CommandException, IOException {
+        String arg[] = {"src" + File.separator + "test" + File.separator + "resources"};
+        Command cd = new Cd(arg);
+        cd.run(environment, emptyInputStream);
+
+        Command ls = new Ls(new String[]{});
+        InputStream out = ls.run(environment, emptyInputStream);
+        List<String> outLines = readFromStream(out);
+        assertEquals(3, outLines.size());
+    }
+
+    @Test
+    public void cdExceptionTest() throws CommandException, IOException {
+        String[] args2 = { "src" + File.separator + "non_exist_dir" };
+        Command cd = new Cd(args2);
+        try {
+            cd.run(environment, emptyInputStream);
+        } catch (CommandException e) {
+            assertEquals("cd: " + args2[0] + ": No such file or directory.",
+                    e.getMessage());
+        }
+    }
+
     @Test(expected = CommandException.class)
     public void externCommandTest() throws CommandException, IOException {
         String[] args = {"ls", "-a", "src/test/resources/"};
@@ -108,7 +155,6 @@ public class CommandsTest {
     @Test
     public void pwdTest() throws CommandException, IOException {
         String pwd = System.getProperty("user.dir");
-
         Command cmd = new Pwd();
         InputStream resultStream = cmd.run(environment, emptyInputStream);
         List<String> lines = readFromStream(resultStream);

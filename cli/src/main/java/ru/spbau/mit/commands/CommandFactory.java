@@ -9,7 +9,7 @@ import java.util.stream.Stream;
  */
 public final class CommandFactory {
     private static final String[] BUILT_IN_COMMANDS = {
-        "cat", "echo", "exit", "grep", "pwd", "wc"
+        "cat", "echo", "exit", "grep", "pwd", "wc", "ls", "cd"
     };
 
     private CommandFactory() {}
@@ -47,6 +47,10 @@ public final class CommandFactory {
                     return new Pwd();
                 case "wc":
                     return new Wc(args);
+                case "ls":
+                    return new Ls(args);
+                case "cd":
+                    return new Cd(args);
                 default:
                     String[] extCmdArgs = new String[task.size()];
                     task.toArray(extCmdArgs);
